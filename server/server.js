@@ -15,7 +15,7 @@ mongoose.connect(
     }
   )
 server.use(express.json())
-
+server.use("/images", express.static(path.join("server/images")))
 
 server.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*")
