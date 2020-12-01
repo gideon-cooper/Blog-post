@@ -53,11 +53,25 @@ router.get('/:id', (req,res,next) => {
     })
 })
 router.get("", (req,res,next) => {
-    
-    Post.find().then((posts) =>  res.status(201).json({
-        message: "Posts successful",
-        posts: posts,
-    }) )
+    const pageSize = +req.query.pagesize
+    const currentPage = +req.query.page
+    const postQuery = Post.find()
+    let uposts
+    if(pageSize && currentPage) {
+        postQuery
+            .skip(pageSize * (currentPage - 1))
+            .limit(pageSize)
+    }
+    postQuery.then((posts) => {
+        uposts = posts
+        return Post.count()})
+        .then(count => {
+        res.status(200).json({
+            message: "Posts fetched successfully!",
+            posts: uposts,
+            maxPosts: count
+        })
+    })
    
 })
 
