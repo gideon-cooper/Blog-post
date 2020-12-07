@@ -1,5 +1,6 @@
 const express = require('express')
 const postsRoutes = require('./routes/posts')
+const userRoutes = require("./routes/user")
 const path = require('path')
 require('dotenv').config({ path: path.join(__dirname, '/../.env') })
 const mongoose = require("mongoose")
@@ -25,6 +26,7 @@ server.use((req, res, next) => {
 })
 
 server.use("/api/posts", postsRoutes)
+server.use("/api/user", userRoutes)
 
 const PORT = process.env.PORT || 3001
 server.listen(PORT, () => console.log("Server is listening on ", PORT))
